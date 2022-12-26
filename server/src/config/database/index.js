@@ -1,13 +1,16 @@
 const { MongoClient } = require("mongodb");
-const { getDBURL,getLOCAL_DBURL } = require("../env"); 
+const { getDBURL,getLOCAL_DBURL, getDB_NAME } = require("../env"); 
+
+const DBURL =getDBURL()||getLOCAL_DBURL();
+const client = new MongoClient(DBURL);
+const db = client.db(getDB_NAME());
 const mongodbConnect = async () => {
   try { 
     console.log(`Connecting to database...`);
-    const DBURL =getDBURL()||getLOCAL_DBURL();
-const client = new MongoClient(DBURL);
-
+  
     await client.connect();
     console.log(`Database connected...`);
+
   } catch (error) {
     console.log(error);
     process.exit(-1);
@@ -16,4 +19,6 @@ const client = new MongoClient(DBURL);
         
 module.exports={
     mongodbConnect,
+    db,
+    client,
 }
