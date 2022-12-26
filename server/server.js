@@ -7,7 +7,7 @@ const { productRoute } = require('./src/routes/product.route');
 
 const PORT = getServerPort()||3000;
 app.use('/api/v1/order_items',productRoute)
-app.use('/api/v1/account',authRoute);
+app.use('/api/v1/auth',authRoute);
 
 app.use("*",errorMiddleWareModule.notFound);
 app.use(errorMiddleWareModule.errorHandler);

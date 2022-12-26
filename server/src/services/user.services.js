@@ -1,7 +1,4 @@
-const { MongoClient } = require("mongodb");
 const dbconnect = require('../config/db.config');
-
- 
 
 exports.getUser =async(seller_id,seller_zip_code_prefix)=>{
     try{
@@ -16,13 +13,12 @@ exports.getUser =async(seller_id,seller_zip_code_prefix)=>{
 exports.getSellerById =async(seller_id)=>{
     try{
         const collecton = dbconnect.db.collection('sellers');
-        const user = await collecton.find({seller_id}).toArray();
+        const user = await collecton.findOne({seller_id});
      return user
     }catch(error){
         return {"error":error};
     }
 }
-
 exports.update=async(useData)=>{
     try {
         

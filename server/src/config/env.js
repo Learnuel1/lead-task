@@ -5,4 +5,6 @@ module.exports ={
     getLOCAL_DBURL:()=>process.env.LOCAL_DB_URL,
     getServerPort:()=>process.env.PORT,
  getFrontendOrigin:()=>process.env.FRONTEND_ORIGIN_URL,
+ getRefreshTokenSecrete:()=>process.env.REFRESH_TOKEN_SECRETE,
+ getTokenSecrete:()=>process.env.TOKEN_TOKEN_SECRETE,
 }

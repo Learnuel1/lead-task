@@ -6,6 +6,7 @@ const productRoute = express.Router();
 
 productRoute.get('/',userRequired, orders);
 productRoute.get('/:id',userRequired, ordersById);
+
 productRoute.all("*",notFound);
 productRoute.use(errorHandler);
 module.exports={

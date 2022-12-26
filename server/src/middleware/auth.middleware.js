@@ -1,17 +1,21 @@
 const { getSellerById } = require("../services/user.services");
 const { APIError } = require("../utils/apiError");
+const jwt = require("jsonwebtoken");
+const { getTokenSecrete } = require("../config/env");
 
 exports.userRequired =async(req,res,next)=>{
     try {
-        const {seller_id}=req.query;
-        if(!seller_id)
-        next(APIError.unauthenticated());
-        const seller = await getSellerById(seller_id);
-        if(!seller || seller.length===0)
+        const token =req.cookies.jwt; 
+       
+        if(!token)
+        return next(APIError.unauthenticated());
+        const payload= jwt.verify(req.cookies.jwt,getTokenSecrete());
+        const isUser = await getSellerById(payload.id);
+        if(!isUser || isUser.length===0)
         next(APIError.notFound("User does not exist"));
-        if(seller.error)
-        next(APIError.customError());
-        req.seller_id=seller.seller_id;
+        if(isUser.error) 
+        return next(APIError.customError(`user does not exist`,404));
+        req.seller_id=payload.id; 
         next();
     } catch (error) {
         next(error)
