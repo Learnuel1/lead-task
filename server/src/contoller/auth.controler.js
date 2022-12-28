@@ -58,9 +58,10 @@ exports.updateAccount =async(req,res,next)=>{
             data[key]=req.query[key];
         }
         const user = await update(data,req.seller_id);
-        if(user.modifiedCount===0)
+        if(user.ok!==1)
         return next(APIError.customError("Update failed, try again"))
-        res.status(200).json({success:true,msg:"Update was successful"});
+        const seller= responseBuilder.buildUser(user.value);
+        res.status(200).json({success:true,msg:"Update was successful",seller});
     } catch (error) {
         next(error);
     }
