@@ -1,5 +1,5 @@
 const { json } = require("express");
-const { getUser, getSellerById } = require("../services/user.services");
+const { getUser, getSellerById, update } = require("../services/user.services");
 const { APIError } = require("../utils/apiError");
 const responseBuilder = require('../utils/responseBuilder.utils')
 const jwt = require("jsonwebtoken");
@@ -43,5 +43,25 @@ exports.login=async(req,res,next)=>{
         res.status(200).json(response);
     } catch (error) {
         next(error)
+    }
+}
+
+exports.updateAccount =async(req,res,next)=>{
+    try {
+        
+        if(!req.seller_id)
+        next(APIError.unauthenticated());
+        const data={};
+        if(!req.query.city && !req.query.state)
+        next(APIError.badRequest());
+        for(key in req.query){
+            data[key]=req.query[key];
+        }
+        const user = await update(data,req.seller_id);
+        if(user.modifiedCount===0)
+        return next(APIError.customError("Update failed, try again"))
+        res.status(200).json({success:true,msg:"Update was successful"});
+    } catch (error) {
+        next(error);
     }
 }

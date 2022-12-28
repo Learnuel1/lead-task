@@ -19,9 +19,11 @@ exports.getSellerById =async(seller_id)=>{
         return {"error":error};
     }
 }
-exports.update=async(useData)=>{
+exports.update=async(userData,seller_id)=>{
     try {
-        
+        const collecton = dbconnect.db.collection('sellers');
+        const user = await collecton.update({seller_id},{$set:{...userData}})
+        return user;
     } catch (error) {
         return {"error": error};
     }

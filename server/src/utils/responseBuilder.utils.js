@@ -1,9 +1,10 @@
 const buildProduct =(productObj)=>{
-const {_id,order_id,freight_value,...data} = productObj;
+const {_id,order_id,freight_value, ...data} = productObj;
+ const products=data.products[0];
 const product ={
     id: data.order_item_id,
     product_id: data.product_id,
-    // product_category: data.products.product_category_name,
+     product_category: products.product_category_name,
     price: data.price,
     date: data.shipping_limit_date
 
