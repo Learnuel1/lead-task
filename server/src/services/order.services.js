@@ -9,10 +9,10 @@ exports.getOrders =async(details)=>{
     }
 }
 
-exports.deleteOrder=async(seller_id,id)=>{
+exports.deleteOrder=async(details)=>{
     try {
         const collection= dbConnect.db.collection('order_items');
-        const orders =await collection.deleteOne({seller_id,order_id:id})
+        const orders =await collection.deleteOne({...details})
         if(orders.deletedCount===0)
         return {err:"item not found"}
         return orders;
