@@ -19,6 +19,8 @@ exports.orders =async(req,res,next)=>{
                 
                 data.push(responseBuilder.buildProduct(cur))
             })
+        }else{
+            return  res.status(404).json({msg:"No order item found"})
         }
         const items ={
             data,
@@ -26,7 +28,7 @@ exports.orders =async(req,res,next)=>{
             limit,
             offset,
         }
-        const response =  responseBuilder.commonResponse("Found",data,"data")
+        const response =  responseBuilder.commonResponse("Found", items,"data")
         res.status(200).json(items)
     } catch (error) {
         next(error)
