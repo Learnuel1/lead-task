@@ -12,7 +12,6 @@ exports.orders =async(req,res,next)=>{
         if(req.query.offset)
         offset=req.query.offset;
         const orders= await getOrders(details)
-       
         const data=[];
         if(orders.length>0){
             orders.forEach((cur)=>{
@@ -40,7 +39,7 @@ exports.deleteOrdersById =async(req,res,next)=>{
         next(APIError.unauthenticated());
         if(!req.query.id)
         next(APIError.badRequest())
-        const details ={seller_id:req.seller_id}
+        const details ={seller_id:req.seller_id,order_id:req.query.id}
         const order= await deleteOrder(details)
         if(order.err)
        return next(APIError.customError(order.err,404));
