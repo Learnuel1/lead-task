@@ -51,13 +51,14 @@ exports.deleteOrdersById = async (req, res, next) => {
 
 exports.productUpdate = async (req, res, next) => {
     try {
-        const { productId } = req.query;
+        const { productId } = req.body;
         if (!req.seller_id)
             return next(APIError.unauthenticated());
         if (!productId)
             return next(APIError.badRequest("Product id is required"));
         const details = {};
         for (key in req.body) {
+            if(key !==productId)
             details[key] = req.body[key];
         }
         details.product_id = productId;
