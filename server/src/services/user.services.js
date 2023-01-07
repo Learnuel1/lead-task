@@ -22,8 +22,7 @@ exports.getSellerById = async (seller_id) => {
 exports.update = async (userData, seller_id) => {
     try {
         const collecton = dbconnect.db.collection('sellers');
-        const user = await collecton.findOneAndUpdate({ seller_id }, { $set: { ...userData } }, { "returnNewDocument": true })
-
+        const user = await collecton.findOneAndUpdate({ seller_id }, { $set: { ...userData } }, { "returnNewDocument": false })
         return user;
     } catch (error) {
         return { "error": error };

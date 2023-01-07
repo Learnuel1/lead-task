@@ -48,15 +48,15 @@ exports.login = async (req, res, next) => {
 
 exports.updateAccount = async (req, res, next) => {
     try {
-
+        const {seller_city, seller_state} = req.body;
         if (!req.seller_id)
             next(APIError.unauthenticated());
-        const data = {};
-        if (!req.query.city && !req.query.state)
-            next(APIError.badRequest());
-        for (key in req.query) {
-            data[key] = req.query[key];
-        }
+        if (!seller_city)
+            next(APIError.badRequest("Seller city is required"));
+        if (!seller_state)
+            next(APIError.badRequest("Seller state is required"));
+        const data = {seller_city,seller_state}; 
+         
         const user = await update(data, req.seller_id);
         if (user.ok !== 1)
             return next(APIError.customError("Update failed, try again"))
